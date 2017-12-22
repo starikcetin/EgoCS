@@ -182,4 +182,41 @@ public abstract class EgoConstraint
             return defaultLookup;
         }
     }
+
+    public int[][] GeneratePermutations( int count )
+    {
+        var list = new List<int[]>( count.Factorial() );
+
+        var swap = new int[ count ];
+        for( int i = 0; i < count; i++ )
+        {
+            swap[ i ] = i + 1;
+        }
+
+        GeneratePermutations( ref list, ref swap, count );
+        return list.ToArray();
+    }
+
+    private void GeneratePermutations( ref List<int[]> list, ref int[] swap, int maxDepth, int currentDepth = 0 )
+    {
+        if( currentDepth == maxDepth )
+        {
+            list.Add( swap );
+        }
+        else
+        {
+            for( int i = currentDepth; i < maxDepth; i++ )
+            {
+                Swap( ref swap, currentDepth, i );
+                GeneratePermutations( ref list, ref swap, maxDepth, currentDepth + 1 );
+            }
+        }
+    }
+
+    private void Swap( ref int[] list, int a, int b )
+    {
+        var temp = list[ a ];
+        list[ a ] = list[ b ];
+        list[ b ] = temp;
+    }
 }
