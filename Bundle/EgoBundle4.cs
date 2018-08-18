@@ -13,7 +13,7 @@ namespace EgoCS.Bundle
         public readonly C3 component3;
         public readonly C4 component4;
 
-        public EgoBundle( C1 component1, C2 component2, C3 component3, C4 component4 )
+        public EgoBundle(C1 component1, C2 component2, C3 component3, C4 component4)
         {
             this.component1 = component1;
             this.component2 = component2;

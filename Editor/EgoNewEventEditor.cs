@@ -8,11 +8,11 @@ namespace EgoCS.Editor
     {
         public string newEventName = "";
 
-        [MenuItem( "Assets/Create/EgoCS/Event", false, 52 )]
+        [MenuItem("Assets/Create/EgoCS/Event", false, 52)]
         public static void NewEventWindow()
         {
             // Get or make a new EgoNewEventEditor and show it
-            GetWindow<EgoNewEventEditor>( "EgoCS" ).Show();
+            GetWindow<EgoNewEventEditor>("EgoCS").Show();
         }
 
         void OnGUI()
@@ -34,16 +34,16 @@ namespace EgoCS.Editor
 
         void DrawEventName()
         {
-            EditorGUILayout.LabelField( "Event Name:" );
-            newEventName = EditorGUILayout.TextField( "", newEventName );
+            EditorGUILayout.LabelField("Event Name:");
+            newEventName = EditorGUILayout.TextField("", newEventName);
         }
 
         void DrawCreateEventButton()
         {
-            if( GUILayout.Button( "Create Event" ) ||
-                ( Event.current.type == EventType.Layout && Event.current.keyCode == KeyCode.Return ) )
+            if (GUILayout.Button("Create Event") ||
+                (Event.current.type == EventType.Layout && Event.current.keyCode == KeyCode.Return))
             {
-                if( newEventName.Length > 0 )
+                if (newEventName.Length > 0)
                 {
                     CreateEvent();
                     Close();
@@ -54,25 +54,27 @@ namespace EgoCS.Editor
         void CreateEvent()
         {
             // Read in EgoEventTemplate
-            var templatePath = Directory.GetFiles( Application.dataPath + "/", "Event.EgoTemplate", SearchOption.AllDirectories )[0];
-            var templateStream = new StreamReader( templatePath );
+            var templatePath =
+                Directory.GetFiles(Application.dataPath + "/", "Event.EgoTemplate", SearchOption.AllDirectories)[0];
+            var templateStream = new StreamReader(templatePath);
             var templateStr = templateStream.ReadToEnd();
 
             // Put Event name in EgoEventTemplate
-            var eventScriptStr = templateStr.Replace( "_CLASS_NAME_", newEventName );
+            var eventScriptStr = templateStr.Replace("_CLASS_NAME_", newEventName);
 
             // Write out
             var writePath = "Assets/";
-            if( Selection.activeObject )
+            if (Selection.activeObject)
             {
-                writePath = AssetDatabase.GetAssetPath( Selection.activeObject );
+                writePath = AssetDatabase.GetAssetPath(Selection.activeObject);
             }
-            var writePathInfo = new FileInfo( writePath );
+
+            var writePathInfo = new FileInfo(writePath);
 
             //Check if write path is on directory or folder
             var fullWritePath = "";
-            var writeAttr = File.GetAttributes( writePath );
-            if( writeAttr == FileAttributes.Directory )
+            var writeAttr = File.GetAttributes(writePath);
+            if (writeAttr == FileAttributes.Directory)
             {
                 fullWritePath = writePathInfo.ToString();
             }
@@ -82,7 +84,7 @@ namespace EgoCS.Editor
             }
 
             fullWritePath += "/" + newEventName + ".cs";
-            File.WriteAllText( fullWritePath, eventScriptStr );
+            File.WriteAllText(fullWritePath, eventScriptStr);
 
             AssetDatabase.Refresh();
         }

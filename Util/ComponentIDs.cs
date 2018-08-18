@@ -15,22 +15,22 @@ namespace EgoCS.Util
             // Get all Component Types
             componentTypes = new List<Type>();
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            foreach( var assembly in assemblies )
+            foreach (var assembly in assemblies)
             {
                 var types = assembly.GetTypes();
-                foreach( var type in types )
+                foreach (var type in types)
                 {
-                    if( type.IsSubclassOf( typeof( Component ) ) && !type.IsAbstract )
+                    if (type.IsSubclassOf(typeof(Component)) && !type.IsAbstract)
                     {
-                        componentTypes.Add( type );
+                        componentTypes.Add(type);
                     }
                 }
             }
 
-            _types = new Dictionary<Type, int>( componentTypes.Count );
-            foreach( var componentType in componentTypes )
+            _types = new Dictionary<Type, int>(componentTypes.Count);
+            foreach (var componentType in componentTypes)
             {
-                _types.Add( componentType, _types.Count );
+                _types.Add(componentType, _types.Count);
             }
         }
 
@@ -39,10 +39,10 @@ namespace EgoCS.Util
             return _types.Count;
         }
 
-        public static int Get( Type componentType )
+        public static int Get(Type componentType)
         {
-            Assert.IsTrue( componentType.IsSubclassOf( typeof( Component ) ), "Only get IDs of Component Types!" );
-            return _types[ componentType ];
+            Assert.IsTrue(componentType.IsSubclassOf(typeof(Component)), "Only get IDs of Component Types!");
+            return _types[componentType];
         }
     }
 }

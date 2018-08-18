@@ -5,7 +5,7 @@
         public readonly T first;
         public readonly U second;
 
-        public Tuple( T first, U second )
+        public Tuple(T first, U second)
         {
             this.first = first;
             this.second = second;

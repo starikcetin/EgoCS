@@ -7,12 +7,12 @@ namespace EgoCS.Editor
     public class EgoNewSystemEditor : EditorWindow
     {
         string newSystemName = "";
-    
-        [ MenuItem( "Assets/Create/EgoCS/System", false, 51 ) ]
+
+        [MenuItem("Assets/Create/EgoCS/System", false, 51)]
         public static void NewSystemWindow()
         {
             // Get or make a new EgoNewSystemEditor, and show it
-            GetWindow<EgoNewSystemEditor>( "EgoCS" ).Show();
+            GetWindow<EgoNewSystemEditor>("EgoCS").Show();
         }
 
         void OnGUI()
@@ -34,16 +34,17 @@ namespace EgoCS.Editor
 
         void DrawSystemName()
         {
-            GUILayout.Label( "System Name:" );
-            newSystemName = GUILayout.TextField( newSystemName, EditorGUIUtility.GetBuiltinSkin( EditorSkin.Inspector ).textField );
+            GUILayout.Label("System Name:");
+            newSystemName = GUILayout.TextField(newSystemName,
+                EditorGUIUtility.GetBuiltinSkin(EditorSkin.Inspector).textField);
         }
 
         void DrawCreateSytemButton()
         {
-            if( GUILayout.Button( "Create System" ) ||
-                ( Event.current.type == EventType.Layout && Event.current.keyCode == KeyCode.Return ) )
+            if (GUILayout.Button("Create System") ||
+                (Event.current.type == EventType.Layout && Event.current.keyCode == KeyCode.Return))
             {
-                if( newSystemName.Length > 0 )
+                if (newSystemName.Length > 0)
                 {
                     CreateSystem();
                     Close();
@@ -54,25 +55,27 @@ namespace EgoCS.Editor
         void CreateSystem()
         {
             // Read in EgoSystemTemplate
-            var templatePath = Directory.GetFiles( Application.dataPath + "/", "System.EgoTemplate", SearchOption.AllDirectories )[0];
-            var templateStream = new StreamReader( templatePath );
+            var templatePath = Directory.GetFiles(Application.dataPath + "/", "System.EgoTemplate",
+                SearchOption.AllDirectories)[0];
+            var templateStream = new StreamReader(templatePath);
             var templateStr = templateStream.ReadToEnd();
 
             // Put System name in EgoSystemTemplate
-            var systemScriptStr = templateStr.Replace( "_CLASS_NAME_", newSystemName );
+            var systemScriptStr = templateStr.Replace("_CLASS_NAME_", newSystemName);
 
             // Write out
             var writePath = "Assets/";
-            if( Selection.activeObject )
+            if (Selection.activeObject)
             {
-                writePath = AssetDatabase.GetAssetPath( Selection.activeObject );
+                writePath = AssetDatabase.GetAssetPath(Selection.activeObject);
             }
-            var writePathInfo = new FileInfo( writePath );
+
+            var writePathInfo = new FileInfo(writePath);
 
             //Check if write path is on directory or folder
             var fullWritePath = "";
-            var writeAttr = File.GetAttributes( writePath );
-            if( writeAttr == FileAttributes.Directory )
+            var writeAttr = File.GetAttributes(writePath);
+            if (writeAttr == FileAttributes.Directory)
             {
                 fullWritePath = writePathInfo.ToString();
             }
@@ -82,7 +85,7 @@ namespace EgoCS.Editor
             }
 
             fullWritePath += "/" + newSystemName + ".cs";
-            File.WriteAllText( fullWritePath, systemScriptStr );
+            File.WriteAllText(fullWritePath, systemScriptStr);
 
             AssetDatabase.Refresh();
         }

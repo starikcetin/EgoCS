@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace EgoCS.Components.MonobehaviorMessages
 {
-    [RequireComponent( typeof( EgoComponent ) ) ]
+    [RequireComponent(typeof(EgoComponent))]
     public class OnTriggerExitComponent : MonoBehaviour
     {
         EgoComponent egoComponent;
@@ -13,10 +13,10 @@ namespace EgoCS.Components.MonobehaviorMessages
             egoComponent = GetComponent<EgoComponent>();
         }
 
-        void OnTriggerExit( Collider collider )
+        void OnTriggerExit(Collider collider)
         {
-            var e = new TriggerExitEvent( egoComponent, collider.gameObject.GetComponent<EgoComponent>(), collider );
-            EgoEvents<TriggerExitEvent>.AddEvent( e );
+            var e = new TriggerExitEvent(egoComponent, collider.gameObject.GetComponent<EgoComponent>(), collider);
+            EgoEvents<TriggerExitEvent>.AddEvent(e);
         }
     }
 }

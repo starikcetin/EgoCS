@@ -8,7 +8,7 @@ namespace EgoCS.Editor
     {
         public string newComponentName = "";
 
-        [ MenuItem( "Assets/Create/EgoCS/Component", false, 50 ) ]
+        [MenuItem("Assets/Create/EgoCS/Component", false, 50)]
         public static void NewComponentWindow()
         {
             // Get or make a new EgoNewComponentEditor and show it
@@ -31,19 +31,19 @@ namespace EgoCS.Editor
             }
             EditorGUILayout.EndVertical();
         }
-    
+
         void DrawSystemName()
         {
-            EditorGUILayout.LabelField( "Component Name:" );
-            newComponentName = EditorGUILayout.TextField( "", newComponentName );
+            EditorGUILayout.LabelField("Component Name:");
+            newComponentName = EditorGUILayout.TextField("", newComponentName);
         }
 
         void DrawCreateComponentButton()
         {
-            if( GUILayout.Button( "Create Component" ) ||
-                ( Event.current.type == EventType.Layout && Event.current.keyCode == KeyCode.Return ) )
+            if (GUILayout.Button("Create Component") ||
+                (Event.current.type == EventType.Layout && Event.current.keyCode == KeyCode.Return))
             {
-                if( newComponentName.Length > 0 )
+                if (newComponentName.Length > 0)
                 {
                     CreateComponent();
                     Close();
@@ -54,25 +54,27 @@ namespace EgoCS.Editor
         void CreateComponent()
         {
             // Read in EgoComponentTemplate
-            var templatePath = Directory.GetFiles( Application.dataPath + "/", "Component.EgoTemplate", SearchOption.AllDirectories )[0];
-            var templateStream = new StreamReader( templatePath );
+            var templatePath = Directory.GetFiles(Application.dataPath + "/", "Component.EgoTemplate",
+                SearchOption.AllDirectories)[0];
+            var templateStream = new StreamReader(templatePath);
             var templateStr = templateStream.ReadToEnd();
 
             // Put Component name in EgoComponentTemplate
-            var componentScriptStr = templateStr.Replace( "_CLASS_NAME_", newComponentName );
+            var componentScriptStr = templateStr.Replace("_CLASS_NAME_", newComponentName);
 
             // Write out
             var writePath = "Assets/";
-            if( Selection.activeObject )
+            if (Selection.activeObject)
             {
-                writePath = AssetDatabase.GetAssetPath( Selection.activeObject );
+                writePath = AssetDatabase.GetAssetPath(Selection.activeObject);
             }
-            var writePathInfo = new FileInfo( writePath );
+
+            var writePathInfo = new FileInfo(writePath);
 
             //Check if write path is on directory or folder
             var fullWritePath = "";
-            var writeAttr = File.GetAttributes( writePath );
-            if( writeAttr  == FileAttributes.Directory )
+            var writeAttr = File.GetAttributes(writePath);
+            if (writeAttr == FileAttributes.Directory)
             {
                 fullWritePath = writePathInfo.ToString();
             }
@@ -82,7 +84,7 @@ namespace EgoCS.Editor
             }
 
             fullWritePath += "/" + newComponentName + ".cs";
-            File.WriteAllText( fullWritePath, componentScriptStr );
+            File.WriteAllText(fullWritePath, componentScriptStr);
 
             AssetDatabase.Refresh();
         }

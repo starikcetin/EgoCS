@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace EgoCS.Components.MonobehaviorMessages
 {
-    [RequireComponent( typeof( EgoComponent ) ) ]
+    [RequireComponent(typeof(EgoComponent))]
     public class OnCollisionEnter2DComponent : MonoBehaviour
     {
         EgoComponent egoComponent;
@@ -13,10 +13,11 @@ namespace EgoCS.Components.MonobehaviorMessages
             egoComponent = GetComponent<EgoComponent>();
         }
 
-        void OnCollisionEnter2D( Collision2D collision )
+        void OnCollisionEnter2D(Collision2D collision)
         {
-            var e = new CollisionEnter2DEvent( egoComponent, collision.gameObject.GetComponent<EgoComponent>(), collision );
-            EgoEvents<CollisionEnter2DEvent>.AddEvent( e );
+            var e = new CollisionEnter2DEvent(egoComponent, collision.gameObject.GetComponent<EgoComponent>(),
+                collision);
+            EgoEvents<CollisionEnter2DEvent>.AddEvent(e);
         }
     }
 }
