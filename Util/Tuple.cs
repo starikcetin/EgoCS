@@ -1,13 +1,14 @@
-﻿using System.Collections;
-
-public class Tuple<T, U>
+﻿namespace EgoCS.Util
 {
-    public readonly T first;
-    public readonly U second;
-
-    public Tuple( T first, U second )
+    public class Tuple<T, U>
     {
-        this.first = first;
-        this.second = second;
+        public readonly T first;
+        public readonly U second;
+
+        public Tuple(T first, U second)
+        {
+            this.first = first;
+            this.second = second;
+        }
     }
 }

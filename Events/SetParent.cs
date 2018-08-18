@@ -1,15 +1,18 @@
-using UnityEngine;
+using EgoCS.Components;
 
-public class SetParent : EgoEvent
+namespace EgoCS.Events
 {
-	public readonly EgoComponent parent;
-	public readonly EgoComponent child;
-	public readonly bool worldPositionStays;
+    public class SetParent : EgoEvent
+    {
+        public readonly EgoComponent parent;
+        public readonly EgoComponent child;
+        public readonly bool worldPositionStays;
 
-	public SetParent( EgoComponent parent, EgoComponent child, bool worldPositionStays = true )
-	{
-		this.parent = parent;
-		this.child = child;
-		this.worldPositionStays = worldPositionStays;
-	}
+        public SetParent(EgoComponent parent, EgoComponent child, bool worldPositionStays = true)
+        {
+            this.parent = parent;
+            this.child = child;
+            this.worldPositionStays = worldPositionStays;
+        }
+    }
 }

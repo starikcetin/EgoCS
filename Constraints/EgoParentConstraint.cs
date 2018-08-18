@@ -1,1 +1,6 @@
-﻿public abstract class EgoParentConstraint : EgoConstraint { }
+﻿namespace EgoCS.Constraints
+{
+    public abstract class EgoParentConstraint : EgoConstraint
+    {
+    }
+}

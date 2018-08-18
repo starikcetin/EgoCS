@@ -1,16 +1,22 @@
-﻿using UnityEngine;
+﻿using EgoCS.Components;
+using UnityEngine;
 
-public abstract class AddedComponent : EgoEvent{}
-
-public class AddedComponent<C> : AddedComponent
-    where C : Component
+namespace EgoCS.Events
 {
-    public readonly C component;
-    public readonly EgoComponent egoComponent;
-
-    public AddedComponent( C component, EgoComponent egoComponent )
+    public abstract class AddedComponent : EgoEvent
     {
-        this.component = component;
-        this.egoComponent = egoComponent;
+    }
+
+    public class AddedComponent<C> : AddedComponent
+        where C : Component
+    {
+        public readonly C component;
+        public readonly EgoComponent egoComponent;
+
+        public AddedComponent(C component, EgoComponent egoComponent)
+        {
+            this.component = component;
+            this.egoComponent = egoComponent;
+        }
     }
 }

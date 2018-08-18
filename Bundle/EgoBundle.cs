@@ -1,1 +1,6 @@
-﻿public abstract class EgoBundle{ }
+﻿namespace EgoCS.Bundle
+{
+    public abstract class EgoBundle
+    {
+    }
+}

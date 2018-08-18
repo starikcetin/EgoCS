@@ -1,28 +1,30 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 
-public class EgoInterface : MonoBehaviour
+namespace EgoCS
 {
-	static EgoInterface()
-	{
-        //Add Systems here:
-        //EgoSystems.Add(
-        //    ...
-        //);
-    }
-
-    void Start()
+    public class EgoInterface : MonoBehaviour
     {
-    	EgoSystems.Start();
-	}
-	
-	void Update()
-	{
-		EgoSystems.Update();
-	}
-	
-	void FixedUpdate()
-	{
-		EgoSystems.FixedUpdate();
-	}
+        static EgoInterface()
+        {
+            //Add Systems here:
+            //EgoSystems.Add(
+            //    ...
+            //);
+        }
+
+        void Start()
+        {
+            EgoSystems.Start();
+        }
+
+        void Update()
+        {
+            EgoSystems.Update();
+        }
+
+        void FixedUpdate()
+        {
+            EgoSystems.FixedUpdate();
+        }
+    }
 }
