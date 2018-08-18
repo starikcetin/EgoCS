@@ -1,66 +1,72 @@
-﻿using UnityEngine;
+﻿using EgoCS.Components;
+using EgoCS.Events;
+using EgoCS.Util;
+using UnityEngine;
 
-public static class Ego
+namespace EgoCS
 {
-    public static EgoComponent AddGameObject( GameObject gameObject )
-    {
-		var egoComponent = AddGameObjectToChildren( gameObject.transform );
-        EgoEvents<AddedGameObject>.AddEvent( new AddedGameObject( gameObject, egoComponent ) );
-        return egoComponent;
-    }
-
-	private static EgoComponent AddGameObjectToChildren( Transform transform )
+	public static class Ego
 	{
-		for (int i = 0; i < transform.childCount; i++)
+		public static EgoComponent AddGameObject( GameObject gameObject )
 		{
-			AddGameObjectToChildren( transform.GetChild( i ) );
+			var egoComponent = AddGameObjectToChildren( gameObject.transform );
+			EgoEvents<AddedGameObject>.AddEvent( new AddedGameObject( gameObject, egoComponent ) );
+			return egoComponent;
 		}
 
-		var egoComponent = transform.GetComponent<EgoComponent>();
-		if( egoComponent == null )
+		private static EgoComponent AddGameObjectToChildren( Transform transform )
 		{
-			egoComponent = transform.gameObject.AddComponent<EgoComponent>();
-		}
+			for (int i = 0; i < transform.childCount; i++)
+			{
+				AddGameObjectToChildren( transform.GetChild( i ) );
+			}
+
+			var egoComponent = transform.GetComponent<EgoComponent>();
+			if( egoComponent == null )
+			{
+				egoComponent = transform.gameObject.AddComponent<EgoComponent>();
+			}
 		
-		egoComponent.CreateMask();
+			egoComponent.CreateMask();
 		
-		return egoComponent;
-	}
-
-	public static C AddComponent<C>( EgoComponent egoComponent ) where C : Component
-    {
-		C component = null;
-		if( !egoComponent.TryGetComponents<C>( out component ) )
-		{
-			component = egoComponent.gameObject.AddComponent<C>();
-			egoComponent.mask[ ComponentIDs.Get( typeof( C ) ) ] = true;
-			EgoEvents<AddedComponent<C>>.AddEvent( new AddedComponent<C>( component, egoComponent ) );
+			return egoComponent;
 		}
 
-		return component;
-	}
+		public static C AddComponent<C>( EgoComponent egoComponent ) where C : Component
+		{
+			C component = null;
+			if( !egoComponent.TryGetComponents<C>( out component ) )
+			{
+				component = egoComponent.gameObject.AddComponent<C>();
+				egoComponent.mask[ ComponentIDs.Get( typeof( C ) ) ] = true;
+				EgoEvents<AddedComponent<C>>.AddEvent( new AddedComponent<C>( component, egoComponent ) );
+			}
 
-	public static void DestroyGameObject( EgoComponent egoComponent )
-	{
-		var gameObject = egoComponent.gameObject;
-		EgoEvents<DestroyedGameObject>.AddEvent( new DestroyedGameObject( gameObject, egoComponent ) );
-		EgoCleanUp.Destroy( egoComponent.gameObject );
-	}
+			return component;
+		}
 
-	public static bool DestroyComponent<C>( EgoComponent egoComponent ) where C : Component
-	{
-		C component = null;
-		if( !egoComponent.TryGetComponents<C>( out component ) ){ return false; }
+		public static void DestroyGameObject( EgoComponent egoComponent )
+		{
+			var gameObject = egoComponent.gameObject;
+			EgoEvents<DestroyedGameObject>.AddEvent( new DestroyedGameObject( gameObject, egoComponent ) );
+			EgoCleanUp.Destroy( egoComponent.gameObject );
+		}
 
-		var e = new DestroyedComponent<C>( component, egoComponent );
-		EgoEvents<DestroyedComponent<C>>.AddEvent( e );
-		EgoCleanUp<C>.Destroy( egoComponent, component );
-		return true;
-	}
+		public static bool DestroyComponent<C>( EgoComponent egoComponent ) where C : Component
+		{
+			C component = null;
+			if( !egoComponent.TryGetComponents<C>( out component ) ){ return false; }
 
-	public static void SetParent( EgoComponent parent, EgoComponent child )
-	{
-		if( child == null ){ Debug.LogWarning( "Cannot set the Parent of a null Child" ); }
-		EgoEvents<SetParent>.AddEvent( new SetParent( parent, child ) );
+			var e = new DestroyedComponent<C>( component, egoComponent );
+			EgoEvents<DestroyedComponent<C>>.AddEvent( e );
+			EgoCleanUp<C>.Destroy( egoComponent, component );
+			return true;
+		}
+
+		public static void SetParent( EgoComponent parent, EgoComponent child )
+		{
+			if( child == null ){ Debug.LogWarning( "Cannot set the Parent of a null Child" ); }
+			EgoEvents<SetParent>.AddEvent( new SetParent( parent, child ) );
+		}
 	}
 }

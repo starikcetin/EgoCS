@@ -1,11 +1,14 @@
-using UnityEngine;
+using EgoCS.Components;
 
-public class MouseUpEvent : EgoEvent
+namespace EgoCS.Events.MonobehaviorMessages
 {
-	public readonly EgoComponent egoComponent;
-
-	public MouseUpEvent( EgoComponent egoComponent )
+	public class MouseUpEvent : EgoEvent
 	{
-		this.egoComponent = egoComponent;
+		public readonly EgoComponent egoComponent;
+
+		public MouseUpEvent( EgoComponent egoComponent )
+		{
+			this.egoComponent = egoComponent;
+		}
 	}
 }

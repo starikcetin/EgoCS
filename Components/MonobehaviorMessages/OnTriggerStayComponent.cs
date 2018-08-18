@@ -1,18 +1,22 @@
-﻿using UnityEngine;
+﻿using EgoCS.Events.MonobehaviorMessages;
+using UnityEngine;
 
-[RequireComponent( typeof( EgoComponent ) ) ]
-public class OnTriggerStayComponent: MonoBehaviour
+namespace EgoCS.Components.MonobehaviorMessages
 {
-    EgoComponent egoComponent;
-
-    void Awake()
+    [RequireComponent( typeof( EgoComponent ) ) ]
+    public class OnTriggerStayComponent: MonoBehaviour
     {
-        egoComponent = GetComponent<EgoComponent>();
-    }
+        EgoComponent egoComponent;
 
-    void OnTriggerStay( Collider collider )
-    {
-        var e = new TriggerStayEvent( egoComponent, collider.gameObject.GetComponent<EgoComponent>(), collider );
-        EgoEvents<TriggerStayEvent>.AddEvent( e );
+        void Awake()
+        {
+            egoComponent = GetComponent<EgoComponent>();
+        }
+
+        void OnTriggerStay( Collider collider )
+        {
+            var e = new TriggerStayEvent( egoComponent, collider.gameObject.GetComponent<EgoComponent>(), collider );
+            EgoEvents<TriggerStayEvent>.AddEvent( e );
+        }
     }
 }

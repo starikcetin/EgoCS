@@ -1,35 +1,39 @@
-using UnityEngine;
+using EgoCS.System;
 using UnityEditor;
 using UnityEditorInternal;
+using UnityEngine;
 
-[CustomEditor( typeof( EgoInterface ) ) ]
-public class EgoInterfaceEditor : Editor
+namespace EgoCS.Editor
 {
-    ReorderableList reorderableList;
-
-    public void OnEnable()
+    [CustomEditor( typeof( EgoInterface ) ) ]
+    public class EgoInterfaceEditor : UnityEditor.Editor
     {
-        reorderableList = new ReorderableList( EgoSystems.systems, typeof( EgoSystem ), false, true, false, false );
+        ReorderableList reorderableList;
 
-        reorderableList.drawHeaderCallback = ( Rect rect ) =>
+        public void OnEnable()
         {
-            EditorGUI.LabelField( rect, "Systems:" );
-        };
+            reorderableList = new ReorderableList( EgoSystems.systems, typeof( EgoSystem ), false, true, false, false );
 
-        reorderableList.drawElementCallback = ( Rect rect, int index, bool isActive, bool isFocused ) =>
+            reorderableList.drawHeaderCallback = ( Rect rect ) =>
+            {
+                EditorGUI.LabelField( rect, "Systems:" );
+            };
+
+            reorderableList.drawElementCallback = ( Rect rect, int index, bool isActive, bool isFocused ) =>
+            {
+                var label = EgoSystems.systems[ index ].GetType().Name;
+                if( label.EndsWith( "System") || label.EndsWith( "system" ) ) label = label.Substring( 0, label.Length - 6 );
+                label = " " + label;
+
+                EgoSystems.systems[ index ].enabled = EditorGUI.ToggleLeft( rect, label, EgoSystems.systems[ index ].enabled );
+            };
+        }
+
+        public override void OnInspectorGUI()
         {
-            var label = EgoSystems.systems[ index ].GetType().Name;
-            if( label.EndsWith( "System") || label.EndsWith( "system" ) ) label = label.Substring( 0, label.Length - 6 );
-            label = " " + label;
-
-            EgoSystems.systems[ index ].enabled = EditorGUI.ToggleLeft( rect, label, EgoSystems.systems[ index ].enabled );
-        };
-    }
-
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-        EditorGUILayout.Space();
-        reorderableList.DoLayoutList();
+            base.OnInspectorGUI();
+            EditorGUILayout.Space();
+            reorderableList.DoLayoutList();
+        }
     }
 }

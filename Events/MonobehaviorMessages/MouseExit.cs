@@ -1,11 +1,14 @@
-using UnityEngine;
+using EgoCS.Components;
 
-public class MouseExitEvent : EgoEvent
+namespace EgoCS.Events.MonobehaviorMessages
 {
-	public readonly EgoComponent egoComponent;
-
-	public MouseExitEvent( EgoComponent egoComponent )
+	public class MouseExitEvent : EgoEvent
 	{
-		this.egoComponent = egoComponent;
+		public readonly EgoComponent egoComponent;
+
+		public MouseExitEvent( EgoComponent egoComponent )
+		{
+			this.egoComponent = egoComponent;
+		}
 	}
 }

@@ -1,11 +1,14 @@
-using UnityEngine;
+using EgoCS.Components;
 
-public class MouseDragEvent : EgoEvent
+namespace EgoCS.Events.MonobehaviorMessages
 {
-	public readonly EgoComponent egoComponent;
-
-	public MouseDragEvent( EgoComponent egoComponent )
+	public class MouseDragEvent : EgoEvent
 	{
-		this.egoComponent = egoComponent;
+		public readonly EgoComponent egoComponent;
+
+		public MouseDragEvent( EgoComponent egoComponent )
+		{
+			this.egoComponent = egoComponent;
+		}
 	}
 }

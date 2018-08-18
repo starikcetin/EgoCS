@@ -1,18 +1,22 @@
-﻿using UnityEngine;
+﻿using EgoCS.Events.MonobehaviorMessages;
+using UnityEngine;
 
-[DisallowMultipleComponent]
-public class OnMouseExitComponent : MonoBehaviour
+namespace EgoCS.Components.MonobehaviorMessages
 {
-	EgoComponent egoComponent;
-
-	void Awake()
+	[DisallowMultipleComponent]
+	public class OnMouseExitComponent : MonoBehaviour
 	{
-		egoComponent = GetComponent<EgoComponent>();
-	}
+		EgoComponent egoComponent;
 
-	void OnMouseExit()
-	{
-		var onMouseDownEvent = new MouseExitEvent( egoComponent );
-		EgoEvents<MouseExitEvent>.AddEvent( onMouseDownEvent );
+		void Awake()
+		{
+			egoComponent = GetComponent<EgoComponent>();
+		}
+
+		void OnMouseExit()
+		{
+			var onMouseDownEvent = new MouseExitEvent( egoComponent );
+			EgoEvents<MouseExitEvent>.AddEvent( onMouseDownEvent );
+		}
 	}
 }

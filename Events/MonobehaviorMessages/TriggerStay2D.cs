@@ -1,16 +1,20 @@
-﻿using UnityEngine;
+﻿using EgoCS.Components;
+using UnityEngine;
 
-public class TriggerStay2DEvent : EgoEvent
+namespace EgoCS.Events.MonobehaviorMessages
 {
-    public readonly EgoComponent egoComponent1;
-    public readonly EgoComponent egoComponent2;
-    public readonly Collider2D collider;
-
-    public TriggerStay2DEvent( EgoComponent egoComponent1, EgoComponent egoComponent2, Collider2D collider )
+    public class TriggerStay2DEvent : EgoEvent
     {
-        this.egoComponent1 = egoComponent1;
-        this.egoComponent2 = egoComponent2;
-        this.collider = collider;
+        public readonly EgoComponent egoComponent1;
+        public readonly EgoComponent egoComponent2;
+        public readonly Collider2D collider;
+
+        public TriggerStay2DEvent( EgoComponent egoComponent1, EgoComponent egoComponent2, Collider2D collider )
+        {
+            this.egoComponent1 = egoComponent1;
+            this.egoComponent2 = egoComponent2;
+            this.collider = collider;
+        }
     }
 }
 

@@ -1,16 +1,20 @@
-﻿using UnityEngine;
+﻿using EgoCS.Components;
+using UnityEngine;
 
-public abstract class DestroyedComponent : EgoEvent { }
-
-public class DestroyedComponent<C> : DestroyedComponent
-    where C : Component
+namespace EgoCS.Events
 {
-    public readonly C component;
-    public readonly EgoComponent egoComponent;
+    public abstract class DestroyedComponent : EgoEvent { }
 
-    public DestroyedComponent( C component, EgoComponent egoComponent )
+    public class DestroyedComponent<C> : DestroyedComponent
+        where C : Component
     {
-        this.component = component;
-        this.egoComponent = egoComponent;
+        public readonly C component;
+        public readonly EgoComponent egoComponent;
+
+        public DestroyedComponent( C component, EgoComponent egoComponent )
+        {
+            this.component = component;
+            this.egoComponent = egoComponent;
+        }
     }
 }

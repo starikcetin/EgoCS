@@ -1,18 +1,22 @@
-﻿using UnityEngine;
+﻿using EgoCS.Events.MonobehaviorMessages;
+using UnityEngine;
 
-[RequireComponent( typeof( EgoComponent ) ) ]
-public class OnCollisionEnter2DComponent : MonoBehaviour
+namespace EgoCS.Components.MonobehaviorMessages
 {
-    EgoComponent egoComponent;
-
-    void Awake()
+    [RequireComponent( typeof( EgoComponent ) ) ]
+    public class OnCollisionEnter2DComponent : MonoBehaviour
     {
-        egoComponent = GetComponent<EgoComponent>();
-    }
+        EgoComponent egoComponent;
 
-    void OnCollisionEnter2D( Collision2D collision )
-    {
-        var e = new CollisionEnter2DEvent( egoComponent, collision.gameObject.GetComponent<EgoComponent>(), collision );
-        EgoEvents<CollisionEnter2DEvent>.AddEvent( e );
+        void Awake()
+        {
+            egoComponent = GetComponent<EgoComponent>();
+        }
+
+        void OnCollisionEnter2D( Collision2D collision )
+        {
+            var e = new CollisionEnter2DEvent( egoComponent, collision.gameObject.GetComponent<EgoComponent>(), collision );
+            EgoEvents<CollisionEnter2DEvent>.AddEvent( e );
+        }
     }
 }

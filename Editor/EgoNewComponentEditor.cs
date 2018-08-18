@@ -1,89 +1,90 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
+﻿using System.IO;
 using UnityEditor;
+using UnityEngine;
 
-public class EgoNewComponentEditor : EditorWindow
+namespace EgoCS.Editor
 {
-    public string newComponentName = "";
-
-    [ MenuItem( "Assets/Create/EgoCS/Component", false, 50 ) ]
-    public static void NewComponentWindow()
+    public class EgoNewComponentEditor : EditorWindow
     {
-        // Get or make a new EgoNewComponentEditor and show it
-        GetWindow<EgoNewComponentEditor>("EgoCS").Show();
-    }
+        public string newComponentName = "";
 
-    void OnGUI()
-    {
-        // Draw New Component Menu
-        EditorGUILayout.BeginVertical();
+        [ MenuItem( "Assets/Create/EgoCS/Component", false, 50 ) ]
+        public static void NewComponentWindow()
         {
-            DrawSystemName();
-
-            EditorGUILayout.BeginHorizontal();
-            {
-                GUILayout.FlexibleSpace();
-                DrawCreateComponentButton();
-            }
-            EditorGUILayout.EndHorizontal();
+            // Get or make a new EgoNewComponentEditor and show it
+            GetWindow<EgoNewComponentEditor>("EgoCS").Show();
         }
-        EditorGUILayout.EndVertical();
-    }
+
+        void OnGUI()
+        {
+            // Draw New Component Menu
+            EditorGUILayout.BeginVertical();
+            {
+                DrawSystemName();
+
+                EditorGUILayout.BeginHorizontal();
+                {
+                    GUILayout.FlexibleSpace();
+                    DrawCreateComponentButton();
+                }
+                EditorGUILayout.EndHorizontal();
+            }
+            EditorGUILayout.EndVertical();
+        }
     
-    void DrawSystemName()
-    {
-        EditorGUILayout.LabelField( "Component Name:" );
-        newComponentName = EditorGUILayout.TextField( "", newComponentName );
-    }
-
-    void DrawCreateComponentButton()
-    {
-        if( GUILayout.Button( "Create Component" ) ||
-           ( Event.current.type == EventType.Layout && Event.current.keyCode == KeyCode.Return ) )
+        void DrawSystemName()
         {
-            if( newComponentName.Length > 0 )
+            EditorGUILayout.LabelField( "Component Name:" );
+            newComponentName = EditorGUILayout.TextField( "", newComponentName );
+        }
+
+        void DrawCreateComponentButton()
+        {
+            if( GUILayout.Button( "Create Component" ) ||
+                ( Event.current.type == EventType.Layout && Event.current.keyCode == KeyCode.Return ) )
             {
-                CreateComponent();
-                Close();
+                if( newComponentName.Length > 0 )
+                {
+                    CreateComponent();
+                    Close();
+                }
             }
         }
-    }
 
-    void CreateComponent()
-    {
-        // Read in EgoComponentTemplate
-        var templatePath = Directory.GetFiles( Application.dataPath + "/", "Component.EgoTemplate", SearchOption.AllDirectories )[0];
-        var templateStream = new StreamReader( templatePath );
-        var templateStr = templateStream.ReadToEnd();
-
-        // Put Component name in EgoComponentTemplate
-        var componentScriptStr = templateStr.Replace( "_CLASS_NAME_", newComponentName );
-
-        // Write out
-        var writePath = "Assets/";
-        if( Selection.activeObject )
+        void CreateComponent()
         {
-            writePath = AssetDatabase.GetAssetPath( Selection.activeObject );
-        }
-        var writePathInfo = new FileInfo( writePath );
+            // Read in EgoComponentTemplate
+            var templatePath = Directory.GetFiles( Application.dataPath + "/", "Component.EgoTemplate", SearchOption.AllDirectories )[0];
+            var templateStream = new StreamReader( templatePath );
+            var templateStr = templateStream.ReadToEnd();
 
-        //Check if write path is on directory or folder
-        var fullWritePath = "";
-        var writeAttr = File.GetAttributes( writePath );
-        if( writeAttr  == FileAttributes.Directory )
-        {
-            fullWritePath = writePathInfo.ToString();
-        }
-        else
-        {
-            fullWritePath = writePathInfo.Directory.ToString();
-        }
+            // Put Component name in EgoComponentTemplate
+            var componentScriptStr = templateStr.Replace( "_CLASS_NAME_", newComponentName );
 
-		fullWritePath += "/" + newComponentName + ".cs";
-        File.WriteAllText( fullWritePath, componentScriptStr );
+            // Write out
+            var writePath = "Assets/";
+            if( Selection.activeObject )
+            {
+                writePath = AssetDatabase.GetAssetPath( Selection.activeObject );
+            }
+            var writePathInfo = new FileInfo( writePath );
 
-        AssetDatabase.Refresh();
+            //Check if write path is on directory or folder
+            var fullWritePath = "";
+            var writeAttr = File.GetAttributes( writePath );
+            if( writeAttr  == FileAttributes.Directory )
+            {
+                fullWritePath = writePathInfo.ToString();
+            }
+            else
+            {
+                fullWritePath = writePathInfo.Directory.ToString();
+            }
+
+            fullWritePath += "/" + newComponentName + ".cs";
+            File.WriteAllText( fullWritePath, componentScriptStr );
+
+            AssetDatabase.Refresh();
+        }
     }
 }

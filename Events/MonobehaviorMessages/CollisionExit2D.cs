@@ -1,15 +1,19 @@
-﻿using UnityEngine;
+﻿using EgoCS.Components;
+using UnityEngine;
 
-public class CollisionExit2DEvent : EgoEvent
+namespace EgoCS.Events.MonobehaviorMessages
 {
-    public readonly EgoComponent egoComponent1;
-    public readonly EgoComponent egoComponent2;
-    public readonly Collision2D collision;
-
-    public CollisionExit2DEvent( EgoComponent egoComponent1, EgoComponent egoComponent2, Collision2D collision )
+    public class CollisionExit2DEvent : EgoEvent
     {
-        this.egoComponent1 = egoComponent1;
-        this.egoComponent2 = egoComponent2;
-        this.collision = collision;
+        public readonly EgoComponent egoComponent1;
+        public readonly EgoComponent egoComponent2;
+        public readonly Collision2D collision;
+
+        public CollisionExit2DEvent( EgoComponent egoComponent1, EgoComponent egoComponent2, Collision2D collision )
+        {
+            this.egoComponent1 = egoComponent1;
+            this.egoComponent2 = egoComponent2;
+            this.collision = collision;
+        }
     }
 }

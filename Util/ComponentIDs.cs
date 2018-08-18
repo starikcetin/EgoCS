@@ -1,45 +1,48 @@
-﻿using UnityEngine;
-using UnityEngine.Assertions;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Assertions;
 
-public static class ComponentIDs
+namespace EgoCS.Util
 {
-    public static readonly List<Type> componentTypes;
-    private static readonly Dictionary<Type, int> _types;
-
-    static ComponentIDs()
+    public static class ComponentIDs
     {
-        // Get all Component Types
-        componentTypes = new List<Type>();
-        var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-        foreach( var assembly in assemblies )
+        public static readonly List<Type> componentTypes;
+        private static readonly Dictionary<Type, int> _types;
+
+        static ComponentIDs()
         {
-            var types = assembly.GetTypes();
-            foreach( var type in types )
+            // Get all Component Types
+            componentTypes = new List<Type>();
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach( var assembly in assemblies )
             {
-                if( type.IsSubclassOf( typeof( Component ) ) && !type.IsAbstract )
+                var types = assembly.GetTypes();
+                foreach( var type in types )
                 {
-                    componentTypes.Add( type );
+                    if( type.IsSubclassOf( typeof( Component ) ) && !type.IsAbstract )
+                    {
+                        componentTypes.Add( type );
+                    }
                 }
+            }
+
+            _types = new Dictionary<Type, int>( componentTypes.Count );
+            foreach( var componentType in componentTypes )
+            {
+                _types.Add( componentType, _types.Count );
             }
         }
 
-        _types = new Dictionary<Type, int>( componentTypes.Count );
-        foreach( var componentType in componentTypes )
+        public static int GetCount()
         {
-            _types.Add( componentType, _types.Count );
+            return _types.Count;
         }
-    }
 
-    public static int GetCount()
-    {
-        return _types.Count;
-    }
-
-    public static int Get( Type componentType )
-    {
-        Assert.IsTrue( componentType.IsSubclassOf( typeof( Component ) ), "Only get IDs of Component Types!" );
-        return _types[ componentType ];
+        public static int Get( Type componentType )
+        {
+            Assert.IsTrue( componentType.IsSubclassOf( typeof( Component ) ), "Only get IDs of Component Types!" );
+            return _types[ componentType ];
+        }
     }
 }

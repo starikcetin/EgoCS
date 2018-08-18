@@ -1,18 +1,22 @@
-﻿using UnityEngine;
+﻿using EgoCS.Events.MonobehaviorMessages;
+using UnityEngine;
 
-[DisallowMultipleComponent]
-public class OnMouseUpComponent : MonoBehaviour
+namespace EgoCS.Components.MonobehaviorMessages
 {
-	EgoComponent egoComponent;
-
-	void Awake()
+	[DisallowMultipleComponent]
+	public class OnMouseUpComponent : MonoBehaviour
 	{
-		egoComponent = GetComponent<EgoComponent>();
-	}
+		EgoComponent egoComponent;
 
-	void OnMouseUp()
-	{
-		var onMouseDownEvent = new MouseUpEvent( egoComponent );
-		EgoEvents<MouseUpEvent>.AddEvent( onMouseDownEvent );
+		void Awake()
+		{
+			egoComponent = GetComponent<EgoComponent>();
+		}
+
+		void OnMouseUp()
+		{
+			var onMouseDownEvent = new MouseUpEvent( egoComponent );
+			EgoEvents<MouseUpEvent>.AddEvent( onMouseDownEvent );
+		}
 	}
 }

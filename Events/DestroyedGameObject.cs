@@ -1,13 +1,17 @@
-﻿using UnityEngine;
+﻿using EgoCS.Components;
+using UnityEngine;
 
-public class DestroyedGameObject : EgoEvent
+namespace EgoCS.Events
 {
-    public readonly GameObject gameObject;
-    public readonly EgoComponent egoComponent;
-
-    public DestroyedGameObject( GameObject gameObject, EgoComponent egoComponent )
+    public class DestroyedGameObject : EgoEvent
     {
-        this.gameObject = gameObject;
-        this.egoComponent = egoComponent;
+        public readonly GameObject gameObject;
+        public readonly EgoComponent egoComponent;
+
+        public DestroyedGameObject( GameObject gameObject, EgoComponent egoComponent )
+        {
+            this.gameObject = gameObject;
+            this.egoComponent = egoComponent;
+        }
     }
 }

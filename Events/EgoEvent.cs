@@ -1,1 +1,4 @@
-﻿public abstract class EgoEvent { }
+﻿namespace EgoCS.Events
+{
+    public abstract class EgoEvent { }
+}

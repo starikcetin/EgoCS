@@ -1,18 +1,22 @@
-﻿using UnityEngine;
+﻿using EgoCS.Events.MonobehaviorMessages;
+using UnityEngine;
 
-[DisallowMultipleComponent]
-public class OnMouseDragComponent : MonoBehaviour
+namespace EgoCS.Components.MonobehaviorMessages
 {
-	EgoComponent egoComponent;
-
-	void Awake()
+	[DisallowMultipleComponent]
+	public class OnMouseDragComponent : MonoBehaviour
 	{
-		egoComponent = GetComponent<EgoComponent>();
-	}
+		EgoComponent egoComponent;
 
-	void OnMouseDrag()
-	{
-		var onMouseDownEvent = new MouseDragEvent( egoComponent );
-		EgoEvents<MouseDragEvent>.AddEvent( onMouseDownEvent );
+		void Awake()
+		{
+			egoComponent = GetComponent<EgoComponent>();
+		}
+
+		void OnMouseDrag()
+		{
+			var onMouseDownEvent = new MouseDragEvent( egoComponent );
+			EgoEvents<MouseDragEvent>.AddEvent( onMouseDownEvent );
+		}
 	}
 }
